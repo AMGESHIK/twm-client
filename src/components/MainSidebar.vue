@@ -2,7 +2,7 @@
   <div class="border-end bg-white" id="sidebar-wrapper">
     <div class=" border-bottom sidebar-heading list-group" style="">
       <a href="/">
-        <img src="../assets/logo.png" alt="logo"
+        <img src="../../public/img/logo.png" alt="logo"
              class="img-fluid " style="">
       </a>
 

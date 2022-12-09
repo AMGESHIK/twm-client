@@ -3,7 +3,7 @@
     <main class="form-signin">
       <Form @submit="handleLogin" :validation-schema="schema">
         <router-link to="/">
-          <img class="mb-4" src="../assets/logo.png" alt="" width="200">
+          <img class="mb-4" src="../../public/img/logo.png" alt="" width="200">
         </router-link>
         <h1 class="h3 mb-3 fw-normal">Вход</h1>
 
@@ -81,7 +81,6 @@ export default {
 
   computed: {
     loggedIn() {
-      // return this.$store.state.auth.status.loggedIn;
       return this.authUserStore.status.loggedIn;
     }
   },

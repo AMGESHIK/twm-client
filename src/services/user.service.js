@@ -1,5 +1,4 @@
 import axios from '@/axiosInstance';
-import authHeader from './authHeader';
 
 const point = '/hello/'
 
@@ -9,7 +8,7 @@ class UserService {
     }
 
     getUserBoard() {
-        return axios.get(point + 'user', {headers: authHeader()});
+        return axios.get(point + 'user');
     }
 
     // getModeratorBoard() {
@@ -17,7 +16,7 @@ class UserService {
     // }
 
     getAdminBoard() {
-        return axios.get(point + 'admin', {headers: authHeader()});
+        return axios.get(point + 'admin');
     }
 }
 

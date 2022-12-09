@@ -3,7 +3,7 @@
     <main class="form-signin">
       <Form @submit="handleRegister" :validation-schema="schema">
         <a href="/">
-          <img class="mb-4" src="../assets/logo.png" th:src="@{/img/Train with me 2.png}" alt=""
+          <img class="mb-4" src="../../public/img/logo.png" th:src="@{/img/Train with me 2.png}" alt=""
                width="200">
         </a>
         <h1 class="h3 mb-3 fw-normal">Регистрация</h1>
@@ -88,13 +88,13 @@ export default {
     };
   },
   computed: {
-    loggedIn() {
-      return this.authUserStore.status.loggedIn;
+    registeredIn() {
+      return this.successful;
     },
   },
-  mounted() {
-    if (this.loggedIn) {
-      this.$router.push("/diary");
+  updated() {
+    if (this.registeredIn) {
+      this.$router.push("/auth/login");
     }
   },
   methods: {

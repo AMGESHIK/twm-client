@@ -43,15 +43,16 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
-              <img src="../assets/person-circle.svg" alt="acc photo" class="me-2"
+              <img src="../../public/img/person-circle.svg" alt="acc photo" class="me-2"
                    style="width: 30px; opacity: 50%;">
-              <span th:if="${#authorization.expression('isAnonymous()')}" class="">Гость</span>
-              <span th:if="${#authorization.expression('isAuthenticated()')}" th:text="${username}"></span>
+              <span v-if="loggedIn" class="">{{ this.authUserStore.user.username }}</span>
+              <span v-else class="">Гость</span>
             </a>
+
             <div class=" dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
 
-              <a href="auth/login" class="dropdown-item">Вход</a>
-              <a href="auth/logout" @click.prevent="logout" class="dropdown-item">Выход</a>
+              <a href="auth/login" v-if="!loggedIn" class="dropdown-item">Вход</a>
+              <a href="auth/logout" v-else @click.prevent="logout" class="dropdown-item">Выход</a>
 
               <a class="dropdown-item" href="#!">Another action</a>
               <div class="dropdown-divider"></div>
@@ -66,6 +67,8 @@
 
 <script>
 import {useAuthUserStore} from "@/stores";
+import eventBus from "@/eventBus";
+
 
 export default {
   name: "NavigationBar",
@@ -73,11 +76,30 @@ export default {
     const authUserStore = useAuthUserStore();
     return {authUserStore}
   },
+  data() {
+    return {
+      username: undefined
+    }
+  },
   methods: {
-    logout(){
+    logout() {
       this.authUserStore.logout();
       this.$router.push('/auth/login')
     }
+  },
+  computed: {
+    loggedIn() {
+      return this.authUserStore.status.loggedIn;
+    }
+  },
+  mounted() {
+
+    eventBus.on("logout", () => {
+      this.logout()
+    })
+  },
+  beforeUnmount() {
+    eventBus.remove("logout")
   }
 }
 </script>

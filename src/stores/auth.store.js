@@ -23,39 +23,29 @@ export const useAuthUserStore = defineStore('authUser', {
                 }
             );
         },
-        token(){
-            return AuthService.token().then(
-                accessToken =>{
-                    this.user.accessToken = accessToken;
-                    return Promise.resolve(accessToken);
-                },
-                error => {
-                    this.status.loggedIn = false;
-                    this.user = null;
-                    return Promise.reject(error);
-                }
-            )
-        },
+        // token() {
+        //     return AuthService.token().then(
+        //         accessToken => {
+        //             this.user.accessToken = accessToken;
+        //             return Promise.resolve(accessToken);
+        //         },
+        //         error => {
+        //             this.status.loggedIn = false;
+        //             this.user = null;
+        //             return Promise.reject(error);
+        //         }
+        //     )
+        // },
 
-        refresh(){
-            return AuthService.refresh().then(
-                user =>{
-                    this.user.accessToken = user.accessToken;
-                    this.user.refreshToken=user.refreshToken;
-                    return Promise.resolve(user);
-                },
-                error => {
-                    this.status.loggedIn = false;
-                    this.user = null;
-                    return Promise.reject(error);
-                }
-            )
+        refresh(accessToken) {
+            this.status.loggedIn = true
+            this.user = {...this.user, accessToken: accessToken};
         },
 
         logout() {
             AuthService.logout();
             this.status.loggedIn = false;
-            this.user=null;
+            this.user = null;
         },
         register(user) {
             return AuthService.register(user).then(
