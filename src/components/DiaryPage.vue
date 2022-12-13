@@ -1,14 +1,17 @@
 <template>
   <div class="container-fluid">
-
     <div class="">
 
       <div class="d-flex mt-4 gap-3">
         <h1 class="">Мои программы:</h1>
-        <router-link  to="/diary/addProgram" class="d-block align-self-center hover-opacity" title="Добавить программу" v-if="loggedIn" style="">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28 " fill="black" class="bi bi-plus-square hover-overlay" viewBox="0 0 16 16" >
-            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"></path>
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+        <router-link to="/diary/addProgram" class="d-block align-self-center hover-opacity" title="Добавить программу"
+                     v-if="loggedIn" style="">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28 " fill="black"
+               class="bi bi-plus-square hover-overlay" viewBox="0 0 16 16">
+            <path
+                d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"></path>
+            <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
           </svg>
         </router-link>
       </div>
@@ -23,7 +26,7 @@
 
             <div class="card-body">
               <h5 class="card-title">{{ program.name }}</h5>
-              <p class="card-text" >{{program.description}}</p>
+              <p class="card-text">{{ program.description }}</p>
               <input type="submit" class="btn btn-primary d-block" value="Перейти">
             </div>
           </div>
@@ -73,10 +76,8 @@
 
           <div class="card-body">
             <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk
-              of
-              the
-              card's content.</p>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+              content.</p>
             <a href="#" class="btn btn-primary">Go somewhere</a>
           </div>
         </div>
@@ -91,6 +92,7 @@
 <script>
 import {useAuthUserStore} from "@/stores";
 import programService from "@/services/program.service";
+import eventBus from "@/eventBus";
 
 export default {
   name: "ContentPage",
@@ -103,11 +105,15 @@ export default {
     const authUserStore = useAuthUserStore();
     return {authUserStore}
   },
-  mounted() {
+  created() {
     programService.getPrograms().then(
         response => {
           this.programs = response.data
-          console.log(response.data)
+        },
+        error => {
+          if (error.response && error.response.status === 403) {
+            eventBus.dispatch("logout");
+          }
         }
     );
   },
@@ -123,7 +129,7 @@ export default {
 </script>
 
 <style scoped>
-.hover-opacity:hover{
+.hover-opacity:hover {
   opacity: 70%;
 }
 </style>
