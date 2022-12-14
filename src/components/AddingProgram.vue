@@ -12,26 +12,47 @@
             <Field as="input" :name="`training[${trainingIndex}].number`" :value="trainingIndex+1" disabled
                    class="d-none"></Field>
             <div class="h5 text-center ">
-              <svg @click="removeTraining(training.id)" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                   fill="red" class="bi bi-x-lg"
-                   viewBox="0 0 16 16">
-                <path
-                    d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-              </svg>
+              <span @click="removeTraining(training.id)" title="Удалить тренировку" style="cursor: pointer;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                     fill="red" class="bi bi-x-lg"
+                     viewBox="0 0 16 16">
+                  <path
+                      d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                </svg>
+              </span>
               Тренировка №{{ trainingIndex + 1 }}
+              <span @click="hideTr(training.id)" style="cursor: pointer;">
+                <span v-if="training.visible" title="Скрыть тренировку">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                       class="bi bi-chevron-up" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                  </svg>
+                </span>
+                <span v-else title="Раскрыть тренировку">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                       class="bi bi-chevron-down" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                  </svg>
+                </span>
+              </span>
             </div>
             <FieldArray name="composition">
-              <div class="mt-2" v-for="(program, index) in programComposition.find(x => x.id === training.id).training "
-                   :key="program.id">
+              <div class="mt-2" v-show="training.visible" v-for="(program, index) in programComposition.find(x => x.id === training.id).training "
+                   :key="program.id" >
                 <div class="mb-1 d-flex justify-content-between align-items-center">
                   <span style="font-size: 18px;">{{ index + 1 }}</span>
-                  <svg @click="removeExercise(training.id, program.id)" xmlns="http://www.w3.org/2000/svg" width="16"
-                       height="16"
-                       fill="red"
-                       class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                    <path
-                        d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
-                  </svg>
+                  <span @click="removeExercise(training.id, program.id)" title="Удалить упражнение"
+                        style="cursor: pointer;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                         height="16"
+                         fill="red"
+                         class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                      <path
+                          d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
+                    </svg>
+                  </span>
                 </div>
                 <Field :name="`training[${trainingIndex}].composition[${index}].exercise`" as="select"
                        class="form-select mb-1"
@@ -65,8 +86,9 @@
                   </div>
                 </div>
               </div>
+              <div v-show="!training.visible" class="fs-1 text-center rounded-3 lh-1 opacity-75" style="letter-spacing: 20px; margin-top: -10px;">···</div>
             </FieldArray>
-            <button type="button" class="btn btn-dark" @click="addExercise(trainingIndex)">Добавить упражнение</button>
+            <button v-show="training.visible" type="button" class="btn btn-dark" @click="addExercise(trainingIndex)">Добавить упражнение</button>
           </div>
         </FieldArray>
         <button type="button" class="btn btn-danger  mt-2" @click="addTraining()">Добавить тренировку</button>
@@ -94,6 +116,7 @@ export default {
       description: null,
       programComposition: [{
         id: Date.now(),
+        visible: true,
         training: [{
           id: Date.now(),
           exerciseText: null,
@@ -118,6 +141,7 @@ export default {
     addTraining() {
       this.programComposition.push({
         id: Date.now(),
+        visible: true,
         training: [{
           id: Date.now(),
           exerciseText: null,
@@ -128,8 +152,6 @@ export default {
       })
     },
     removeExercise(trainingId, programId) {
-      console.log(trainingId, programId)
-      // this.programComposition[trainingId].training.splice(programId, 1)
       this.programComposition.forEach(
           x => {
             if (x.id === trainingId) {
@@ -139,16 +161,20 @@ export default {
       )
     },
     removeTraining(trainingId) {
-      console.log(trainingId)
-      // this.programComposition.splice(trainingId, 1)
       this.programComposition = this.programComposition.filter(x => x.id !== trainingId)
     },
     sendProgram(program) {
       // programService.postProgram(program)
       console.log(program)
-      setTimeout(function () {
-        debugger;
-      }, 0)
+    },
+    hideTr(id){
+      this.programComposition.forEach(
+          x => {
+            if (x.id === id) {
+              x.visible = !x.visible
+            }
+          }
+      )
     }
   },
   mounted() {
