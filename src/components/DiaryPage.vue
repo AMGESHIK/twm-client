@@ -20,14 +20,31 @@
         <div class="d-flex gap-2 flex-wrap" v-if="loggedIn">
           <div class="fs-3" style="color: #a52834" v-if="programs.length<1">Добавьте свою программу тренировок</div>
 
-          <div class="card" style="flex: 0 0 200px;" :key="program.id" v-for="program in programs">
+          <div class="card" style="flex: 0 0 250px;" :key="program.id" v-for="program in programs">
 
-            <img :src="program.photoURL" class="card-img-top p-2" style="object-fit: cover;" alt="card img">
+            <img :src="program.photoURL" class="card-img-top p-2"
+                 style="object-fit: cover; width: 200px; align-self: center;" alt="card img">
 
             <div class="card-body">
-              <h5 class="card-title">{{ program.name }}</h5>
+              <div class="d-flex justify-content-between" style="cursor: pointer;">
+                <h5 class="card-title">{{ program.name }}</h5>
+                <div class="dropdown">
+                  <div class="" id="programDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                      <path
+                          d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                    </svg>
+                  </div>
+                  <div class=" dropdown-menu dropdown-menu-end" aria-labelledby="programDropdown">
+                    <span class="dropdown-item" @click="removeProgram(program.id)">Удалить</span>
+                  </div>
+                </div>
+              </div>
               <p class="card-text">{{ program.description }}</p>
-              <input type="submit" class="btn btn-primary d-block" value="Перейти">
+              <button class="btn btn-primary d-block" @click="$router.push(`/diary/program/${program.id}`)">Открыть
+              </button>
             </div>
           </div>
         </div>
@@ -70,15 +87,14 @@
       <h1 class="mt-4">Готовые программы:</h1>
 
       <div class="d-flex gap-2 flex-wrap">
-        <div class="card " style="flex: 0 0 200px;">
-          <img src="../../public/img/logo.png" th:src="@{/img/Train with me 2.png}" class="card-img-top p-2"
+        <div class="card " style="flex: 0 0 250px;">
+          <img src="../../public/img/logo.png" class="card-img-top p-2"
                alt="...">
 
           <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-              content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <h5 class="card-title">Набор мышечной массы</h5>
+            <p class="card-text">Программа предназначена для новчиков. Цель программы набор мышечной массы.</p>
+            <a href="#" class="btn btn-primary">Открыть</a>
           </div>
         </div>
 
@@ -123,8 +139,15 @@ export default {
     }
 
   },
-
-  methods: {}
+  methods: {
+    removeProgram(id) {
+      programService.removeProgram(id).then(
+          () =>{
+            this.programs = this.programs.filter(x => x.id !== id)
+          }
+      )
+    }
+  }
 }
 </script>
 

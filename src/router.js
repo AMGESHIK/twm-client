@@ -4,24 +4,18 @@ import LoginPage from "@/components/LoginPage";
 import RegistrationPage from "@/components/RegistrationPage";
 import DiaryPage from "@/components/DiaryPage";
 import AddingProgram from "@/components/AddingProgram";
+import programPage from "@/components/ProgramPage";
+import EditProgram from "@/components/EditProgram";
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        {
-            path: '/diary',
-            component: DiaryPage,
-            // children: [
-            //     {
-            //         path: 'addProgram',
-            //         component: AddingProgram,
-            //
-            //     }
-            // ]
-        },
+        {path: '/diary', component: DiaryPage},
         {path: '', redirect: '/diary'},
         {path: '/', redirect: '/diary'},
         {path: '/diary/addProgram', component: AddingProgram},
+        {path: '/diary/program/:programId', component: programPage, name:"program"},
+        {path: '/diary/editProgram/:programId', component: EditProgram, name:"editProgram"},
         {path: '/auth/login', component: LoginPage},
         {path: '/auth/registration', component: RegistrationPage}
 

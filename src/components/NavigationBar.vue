@@ -54,9 +54,9 @@
               <a href="auth/login" v-if="!loggedIn" class="dropdown-item">Вход</a>
               <a href="auth/logout" v-else @click.prevent="logout" class="dropdown-item">Выход</a>
 
-              <a class="dropdown-item" href="#!">Another action</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#!">Something else here</a>
+<!--              <a class="dropdown-item" href="#!">Another action</a>-->
+<!--              <div class="dropdown-divider"></div>-->
+<!--              <a class="dropdown-item" href="#!">Something else here</a>-->
             </div>
           </li>
         </ul>

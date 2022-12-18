@@ -3,8 +3,9 @@
     <h3 class="mt-3">Конструктор программы</h3>
     <Form @submit="sendProgram" class="mb-4 mt-4" style="column-gap: 10%;">
       <div style="width: 310px;" class="d-grid">
-        <Field type="text" class="form-control mb-1" placeholder="Название" name="name"/>
-        <Field as="textarea" class="form-control mb-1" rows="4" placeholder="Описание" style="resize: none;"
+        <Field :value="name" :key="name" type="text" class="form-control mb-1" placeholder="Название" name="name"/>
+        <Field :value="description" :key="description" as="textarea" class="form-control mb-1" rows="4"
+               placeholder="Описание" style="resize: none;"
                name="description"/>
         <FieldArray name="training">
           <div v-for="(training, trainingIndex) in programComposition" :key="trainingIndex"
@@ -110,7 +111,7 @@ import eventBus from "@/eventBus";
 import {Field, Form} from "vee-validate";
 
 export default {
-  name: "AddingProgram",
+  name: "EditProgram",
   components: {
     Form,
     Field
@@ -119,25 +120,62 @@ export default {
     return {
       name: null,
       description: null,
-      programComposition: [{
-        id: Date.now(),
-        visible: true,
-        training: [{
-          id: Date.now(),
-          exerciseText: null,
-          exerciseId: "Выберите упражнение",
-          sets: null,
-          repetitions: null
-        }]
-      }],
+      programComposition: [],
       allExercises: new Map()
     };
   },
-
+  created() {
+    programService.getProgram(this.$route.params.programId).then(
+        response => {
+          this.name = response.data[0].program.name
+          this.description = response.data[0].program.description
+          for (const datum of response.data) {
+            let exist = this.programComposition.find(x => x.number === datum.numberTraining);
+            if (exist === undefined) {
+              this.programComposition.push({
+                number: datum.numberTraining,
+                id: this.generateId,
+                visible: true,
+                training: [{
+                  id: this.generateId,
+                  exerciseText: datum.exercise.name,
+                  exerciseId: datum.exercise.id,
+                  sets: datum.amountsOfSets,
+                  repetitions: datum.amountsOfRepetition
+                }]
+              })
+            } else {
+              exist.training.push({
+                id: this.generateId,
+                exerciseText: datum.exercise.name,
+                exerciseId: datum.exercise.id,
+                sets: datum.amountsOfSets,
+                repetitions: datum.amountsOfRepetition
+              })
+            }
+          }
+        }
+    )
+  },
+  computed: {
+    generateId(){
+      let rand
+      let bool
+      do{
+        rand = Math.floor(Math.random()*10000)
+        bool = this.programComposition.some(x=>x.id===rand)
+        this.programComposition.forEach(x=>{
+          if(x.training.some(y=> y.id === rand))
+            bool = false
+        })
+      } while ( bool )
+      return rand
+    }
+  },
   methods: {
     addExercise(trainingIndex) {
       this.programComposition[trainingIndex].training.push({
-        id: Date.now(),
+        id: this.generateId,
         exerciseText: null,
         exerciseId: "Выберите упражнение",
         sets: null,
@@ -146,10 +184,10 @@ export default {
     },
     addTraining() {
       this.programComposition.push({
-        id: Date.now(),
+        id: this.generateId,
         visible: true,
         training: [{
-          id: Date.now(),
+          id: this.generateId,
           exerciseText: null,
           exerciseId: "Выберите упражнение",
           sets: null,
@@ -170,8 +208,9 @@ export default {
       this.programComposition = this.programComposition.filter(x => x.id !== trainingId)
     },
     sendProgram(program) {
-      programService.postProgram(program)
-      this.$router.push("/diary")
+      programService.putProgram(program, this.$route.params.programId)
+      console.log(program)
+      this.$router.push(`/diary/program/${this.$route.params.programId}`)
     },
     hideTr(id) {
       this.programComposition.forEach(
