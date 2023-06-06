@@ -1,22 +1,28 @@
 import axios from '@/axiosInstance';
 
-const point = '/hello/'
 
 class UserService {
-    getPublicContent() {
-        return axios.get('/');
+    getCurrentUserId() {
+        return axios.get('/user/current')
     }
 
-    getUserBoard() {
-        return axios.get(point + 'user');
+    getUsernameById(id) {
+        return axios.get('/user/usernameById', {
+            params: {
+                id: id,
+            }
+        })
     }
 
-    // getModeratorBoard() {
-    //     return axios.get(API_URL + 'mod', {headers: authHeader()});
-    // }
-
-    getAdminBoard() {
-        return axios.get(point + 'admin');
+    getAllUsersByUsernameContaining(username) {
+        if (username) {
+            return axios.get('/user/searchUsers', {
+                params: {
+                    username: username
+                }
+            });
+        }
+        return null;
     }
 }
 

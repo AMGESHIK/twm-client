@@ -1,7 +1,6 @@
 <template>
   <nav class="navbar navbar-expand navbar-light bg-light border-bottom">
     <div class="container-fluid">
-
       <button class="btn btn-secondary navbar-toggler d-block" id="sidebarToggle">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
              class="bi bi-layout-text-sidebar" viewBox="0 0 16 16">
@@ -11,13 +10,6 @@
               d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm12-1v14h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-2zm-1 0H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h9V1z"></path>
         </svg>
       </button>
-
-      <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-          aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
-      </button> -->
-
-      <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">  -->
       <div>
         <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
           <li class="nav-item active">
@@ -29,7 +21,6 @@
               </svg>
             </a>
           </li>
-
           <li class="nav-item">
             <a class="nav-link" href="#!">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
@@ -39,7 +30,6 @@
               </svg>
             </a>
           </li>
-
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
@@ -48,15 +38,10 @@
               <span v-if="loggedIn" class="">{{ this.authUserStore.user.username }}</span>
               <span v-else class="">Гость</span>
             </a>
-
             <div class=" dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-
+              <router-link :to="{name: 'profile', params:{username: this.authUserStore.user.username} }" v-if="loggedIn" class="dropdown-item">Профиль</router-link>
               <a href="auth/login" v-if="!loggedIn" class="dropdown-item">Вход</a>
               <a href="auth/logout" v-else @click.prevent="logout" class="dropdown-item">Выход</a>
-
-<!--              <a class="dropdown-item" href="#!">Another action</a>-->
-<!--              <div class="dropdown-divider"></div>-->
-<!--              <a class="dropdown-item" href="#!">Something else here</a>-->
             </div>
           </li>
         </ul>

@@ -9,7 +9,7 @@ const setup = () => {
         (config) => {
             const token = TokenService.getLocalAccessToken();
             if (token) {
-                config.headers["Authorization"] = 'Bearer ' + token;  // for Spring Boot back-end
+                config.headers["Authorization"] = 'Bearer ' + token;
             }
             return config;
         },

@@ -1,7 +1,6 @@
 <template>
   <div class="container-fluid">
     <div class="">
-
       <div class="d-flex mt-4 gap-3">
         <h1 class="">Мои программы:</h1>
         <router-link to="/diary/addProgram" class="d-block align-self-center hover-opacity" title="Добавить программу"
@@ -15,16 +14,12 @@
           </svg>
         </router-link>
       </div>
-
       <div>
         <div class="d-flex gap-2 flex-wrap" v-if="loggedIn">
           <div class="fs-3" style="color: #a52834" v-if="programs.length<1">Добавьте свою программу тренировок</div>
-
           <div class="card" style="flex: 0 0 250px;" :key="program.id" v-for="program in programs">
-
             <img :src="program.photoURL" class="card-img-top p-2"
                  style="object-fit: cover; width: 200px; align-self: center;" alt="card img">
-
             <div class="card-body">
               <div class="d-flex justify-content-between" style="cursor: pointer;">
                 <h5 class="card-title">{{ program.name }}</h5>
@@ -82,25 +77,20 @@
         </div>
       </div>
     </div>
-
     <div>
       <h1 class="mt-4">Готовые программы:</h1>
-
       <div class="d-flex gap-2 flex-wrap">
         <div class="card " style="flex: 0 0 250px;">
           <img src="../../public/img/logo.png" class="card-img-top p-2"
                alt="...">
-
           <div class="card-body">
             <h5 class="card-title">Набор мышечной массы</h5>
             <p class="card-text">Программа предназначена для новчиков. Цель программы набор мышечной массы.</p>
             <a href="#" class="btn btn-primary">Открыть</a>
           </div>
         </div>
-
       </div>
     </div>
-
   </div>
   <router-view></router-view>
 </template>
@@ -122,16 +112,18 @@ export default {
     return {authUserStore}
   },
   created() {
-    programService.getPrograms().then(
-        response => {
-          this.programs = response.data
-        },
-        error => {
-          if (error.response && error.response.status === 403) {
-            eventBus.dispatch("logout");
+    if(this.loggedIn) {
+      programService.getPrograms().then(
+          response => {
+            this.programs = response.data
+          },
+          error => {
+            if (error.response && error.response.status === 403) {
+              eventBus.dispatch("logout");
+            }
           }
-        }
-    );
+      );
+    }
   },
   computed: {
     loggedIn() {

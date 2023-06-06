@@ -8,6 +8,11 @@ const initialState = user
 
 export const useAuthUserStore = defineStore('authUser', {
     state: () => (initialState),
+    getters: {
+        userInfo(state){
+            return state.user
+        }
+    },
     actions: {
         login(user) {
             return AuthService.login(user).then(
