@@ -24,6 +24,22 @@ class UserService {
         }
         return null;
     }
+
+    getProfile(username){
+        if(username){
+            return axios.get('/user/profile', {
+                params: {
+                    username: username
+                }
+            });
+        }
+    }
+
+    setProfile(profileInfo){
+        if(profileInfo){
+            return axios.post('/user/profile',profileInfo)
+        }
+    }
 }
 
 export default new UserService();

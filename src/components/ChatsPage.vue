@@ -19,7 +19,7 @@
         <ul class="friend-list">
           <li v-for="chat in chats" :key="chat.id">
             <router-link to="#" @click="$router.push(`/chats/${chat.userId}`)" class="clearfix text-decoration-none">
-              <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="rounded-circle">
+              <img :src="chat.userPhotoUrl" alt="" class="rounded-circle">
               <div class="friend-name">
                 <strong>{{ chat.username }}</strong>
               </div>
@@ -35,7 +35,7 @@
           </li>
           <li v-for="user in searchResults" :key="user.id">
             <router-link to="#" @click="$router.push(`/chats/${user.id}`)" class="clearfix text-decoration-none">
-              <img src="https://bootdey.com/img/Content/user_1.jpg" v-if="user.username" alt="" class="rounded-circle">
+              <img :src="user.userPhotoUrl" v-if="user.username" alt="" class="rounded-circle">
               <div class="friend-name">
                 <strong>{{ user.username }}</strong>
               </div>
@@ -53,6 +53,7 @@
 import userService from "@/services/user.service";
 import {Form, Field} from "vee-validate";
 import chatsService from "@/services/chats.service";
+import filesService from "@/services/files.service";
 
 export default {
   name: "ChatPage",
@@ -66,6 +67,7 @@ export default {
         chatId: null,
         userId: null,
         username: null,
+        userPhotoUrl: null,
         lastMessage: {
           content: null,
           id: null,
@@ -75,6 +77,7 @@ export default {
       }],
       searchResults: [{
         username: null,
+        userPhotoUrl: null,
         id: null,
         name: null,
       }]
@@ -86,12 +89,31 @@ export default {
           this.chats = []
           response.data.forEach(
               x => {
-                this.chats.push({
-                  chatId: x.chatId,
-                  userId: x.userId,
-                  username: x.username,
-                  lastMessage: x.lastMessage
-                })
+                if (x.userId) {
+                  filesService.getProfilePhoto(x.userId).then(
+                      response => {
+                        this.chats.push({
+                          chatId: x.chatId,
+                          userId: x.userId,
+                          username: x.username,
+                          userPhotoUrl: URL.createObjectURL(response.data),
+                          lastMessage: x.lastMessage
+                        })
+                        this.chats.sort((a, b) => b.lastMessage.timestamp - a.lastMessage.timestamp)
+                      },
+                      error => {
+                        this.chats.push({
+                          chatId: x.chatId,
+                          userId: x.userId,
+                          username: x.username,
+                          userPhotoUrl: null,
+                          lastMessage: x.lastMessage
+                        })
+                        console.log(error)
+                      }
+                  )
+                }
+
               })
         },
         error => {
@@ -100,7 +122,7 @@ export default {
     )
   },
   mounted() {
-    this.chats.sort((a,b)=>b.lastMessage.timestamp - a.lastMessage.timestamp)
+    // this.chats.sort((a, b) => b.lastMessage.timestamp - a.lastMessage.timestamp)
   },
   methods: {
     findUsers(username) {
@@ -110,8 +132,34 @@ export default {
         name: null,
       }]
       userService.getAllUsersByUsernameContaining(username.username.trim()).then(
-          response => {
-            this.searchResults = response.data
+          resp => {
+            this.searchResults = []
+            resp.data.forEach(
+                x => {
+                  if (x.id) {
+                    filesService.getProfilePhoto(x.id).then(
+                        response => {
+                          this.searchResults.push({
+                            id: x.id,
+                            username: x.username,
+                            userPhotoUrl: URL.createObjectURL(response.data),
+                            name: x.name
+                          })
+                        },
+                        error => {
+                          this.searchResults.push({
+                            id: x.id,
+                            username: x.username,
+                            userPhotoUrl: null,
+                            name: x.name
+                          })
+                          console.log(error)
+                        }
+                    )
+                  }
+
+                }
+            )
           }
       )
     },

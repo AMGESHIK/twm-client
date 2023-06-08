@@ -1,36 +1,13 @@
 <template>
   <div class="my-container container mt-xl-2">
     <section class="chat">
-      <div class="header-chat">
+      <div class="header-chat" @click="goToProfile" style="cursor: pointer;">
         <i class="icon fa fa-user-o" aria-hidden="true"></i>
-        <img src="https://bootdey.com/img/Content/user_2.jpg" style="height: 80%;" alt="" class="rounded-circle">
+        <img :src="recipientPhotoUrl" style="height: 45px; width: 45px; object-fit: cover;" alt="" class="rounded-circle">
         <p class="name">{{ recipientName }}</p>
         <i class="icon clickable fa fa-ellipsis-h right" aria-hidden="true"></i>
       </div>
       <div class="messages-chat">
-        <div class="message">
-          <p class="text"> Hi, how are you ? sdf sd fwsf s fs gesrt e ge g e rg ew gew ge wrg fegefwsfdg fgdws gwerwerg
-            e<span class="timee"> 14h58</span></p>
-
-        </div>
-        <!--        <div class="message">-->
-        <!--          <p class="text"> What are you doing tonight ? Want to go take a drink ?</p>-->
-        <!--        </div>-->
-        <!--        <p class="time"> 14h58</p>-->
-        <!--        <div class="message">-->
-        <!--          <div class="response">-->
-        <!--            <p class="text"> Hey Megan ! It's been a while 😃 <span class="timee"> 14h58</span> </p>-->
-        <!--          </div>-->
-        <!--        </div>-->
-        <!--        <div class="message text-only">-->
-        <!--          <div class="response">-->
-        <!--            <p class="text"> When can we meet ?</p>-->
-        <!--          </div>-->
-        <!--        </div>-->
-        <!--                <p class="response-time time"> 15h04</p>-->
-        <!--        <div class="message">-->
-        <!--          <p class="text"> 9 pm at the bar if possible 😳 <span class="timee"> 14h58</span> </p>-->
-        <!--        </div>-->
         <div v-for="message in messages" :key="message.id" class="message">
           <div :class="{response: message.sender!=$route.params.userId}">
             <p class="text">{{ message.text }} <span class="time"> {{ parseTime(message.time) }}</span></p>
@@ -66,6 +43,7 @@ import chatsService from "@/services/chats.service";
 import {useStompStore} from "@/stores/stomp.store";
 import {useAuthUserStore} from "@/stores";
 import userService from "@/services/user.service";
+import filesService from "@/services/files.service";
 // import {watch} from "vue";
 
 export default {
@@ -78,6 +56,7 @@ export default {
   data() {
     return {
       recipientName: null,
+      recipientPhotoUrl: null,
       messages: [{
         id: null,
         sender: null,
@@ -116,10 +95,17 @@ export default {
           console.log(error)
         }
     )
+    filesService.getProfilePhoto(this.$route.params.userId).then(
+        response => {
+          this.recipientPhotoUrl = URL.createObjectURL(response.data)
+        },
+        error => {
+          console.log(error)
+        }
+  )
   },
   mounted() {
-    const scrollToElem = document.querySelector('.message:last-of-type')
-    scrollToElem.scrollIntoView()
+
   },
   methods: {
     sendMessage() {
@@ -141,6 +127,9 @@ export default {
       if (minutes / 10 < 1)
         minutes = '0' + minutes
       return hours + ':' + minutes
+    },
+    goToProfile(){
+      this.$router.push(`/profile/`+this.recipientName)
     }
   },
   watch: {

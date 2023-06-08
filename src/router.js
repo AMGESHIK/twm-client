@@ -9,6 +9,7 @@ import EditProgram from "@/components/EditProgram";
 import ProfilePage from "@/components/ProfilePage";
 import ChatsPage from "@/components/ChatsPage";
 import ChatPage from "@/components/ChatPage";
+import EditProfile from "@/components/EditProfile";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -22,6 +23,7 @@ const router = createRouter({
         {path: '/auth/login', component: LoginPage},
         {path: '/auth/registration', component: RegistrationPage},
         {path:'/profile/:username', component: ProfilePage, name:"profile"},
+        {path:'/profile/:username/edit', component: EditProfile, name:"editProfile"},
         {path: '/chats', component: ChatsPage},
         {path: '/chats/:userId', component: ChatPage, name:"chat"}
     ]

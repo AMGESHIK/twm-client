@@ -33,13 +33,17 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
-              <img src="../../public/img/person-circle.svg" alt="acc photo" class="me-2"
+              <img v-if="!loggedIn" src="../../public/img/person-circle.svg" alt="acc photo" class="me-2"
                    style="width: 30px; opacity: 50%;">
+              <img v-else :src="photoUrl" alt="acc photo" class="me-2 rounded-circle"
+                   style="width: 30px; height: 30px; object-fit: cover;">
               <span v-if="loggedIn" class="">{{ this.authUserStore.user.username }}</span>
               <span v-else class="">Гость</span>
             </a>
             <div class=" dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <router-link :to="{name: 'profile', params:{username: this.authUserStore.user.username} }" v-if="loggedIn" class="dropdown-item">Профиль</router-link>
+              <router-link :to="{name: 'profile', params:{username: this.authUserStore.user.username} }" v-if="loggedIn"
+                           class="dropdown-item">Профиль
+              </router-link>
               <a href="auth/login" v-if="!loggedIn" class="dropdown-item">Вход</a>
               <a href="auth/logout" v-else @click.prevent="logout" class="dropdown-item">Выход</a>
             </div>
@@ -53,6 +57,7 @@
 <script>
 import {useAuthUserStore} from "@/stores";
 import eventBus from "@/eventBus";
+import filesService from "@/services/files.service";
 
 
 export default {
@@ -63,7 +68,8 @@ export default {
   },
   data() {
     return {
-      username: undefined
+      username: null,
+      photoUrl: null
     }
   },
   methods: {
@@ -75,6 +81,18 @@ export default {
   computed: {
     loggedIn() {
       return this.authUserStore.status.loggedIn;
+    }
+  },
+  created() {
+    if (this.loggedIn) {
+      filesService.getProfilePhoto(this.authUserStore.userInfo.id).then(
+          response => {
+            this.photoUrl = URL.createObjectURL(response.data)
+          },
+          error => {
+            console.log(error)
+          }
+      )
     }
   },
   mounted() {
