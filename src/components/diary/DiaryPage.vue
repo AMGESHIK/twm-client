@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid" style="">
     <div class="">
       <div class="d-flex mt-4 gap-3">
         <h1 class="">Мои программы:</h1>
@@ -53,7 +53,7 @@
             <a href="/login">
               <div class="position-absolute top-50 start-50 translate-middle text-black"
                    style="z-index: 10; color:#1240AB">
-                <img src="../../public/img/internet_lock_locked_padlock_password_secure_security_icon_127078.svg" alt=""
+                <img src="../../../public/img/internet_lock_locked_padlock_password_secure_security_icon_127078.svg" alt=""
                      class="d-block mx-auto">
                 <div class="text-center h5 mt-2" style="text-shadow: white 1px 1px 1px;}">
                   Войдите, чтобы пользоваться личными программами
@@ -81,7 +81,7 @@
       <h1 class="mt-4">Готовые программы:</h1>
       <div class="d-flex gap-2 flex-wrap">
         <div class="card " style="flex: 0 0 250px;">
-          <img src="../../public/img/logo.png" class="card-img-top p-2"
+          <img src="../../../public/img/logo.png" class="card-img-top p-2"
                alt="...">
           <div class="card-body">
             <h5 class="card-title">Набор мышечной массы</h5>

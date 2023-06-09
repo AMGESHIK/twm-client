@@ -1,15 +1,17 @@
 import {createRouter, createWebHistory} from "vue-router";
 
-import LoginPage from "@/components/LoginPage";
-import RegistrationPage from "@/components/RegistrationPage";
-import DiaryPage from "@/components/DiaryPage";
-import AddingProgram from "@/components/AddingProgram";
-import programPage from "@/components/ProgramPage";
-import EditProgram from "@/components/EditProgram";
-import ProfilePage from "@/components/ProfilePage";
-import ChatsPage from "@/components/ChatsPage";
-import ChatPage from "@/components/ChatPage";
-import EditProfile from "@/components/EditProfile";
+import LoginPage from "@/components/auth/LoginPage";
+import RegistrationPage from "@/components/auth/RegistrationPage";
+import DiaryPage from "@/components/diary/DiaryPage";
+import AddingProgram from "@/components/diary/AddingProgram";
+import programPage from "@/components/diary/ProgramPage";
+import EditProgram from "@/components/diary/EditProgram";
+import ProfilePage from "@/components/profile/ProfilePage";
+import ChatsPage from "@/components/chat/ChatsPage";
+import ChatPage from "@/components/chat/ChatPage";
+import EditProfile from "@/components/profile/EditProfile";
+import newsFeed from "@/components/posts/NewsFeed";
+import directoryPage from "@/components/directory/DirectoryPage";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -25,7 +27,9 @@ const router = createRouter({
         {path:'/profile/:username', component: ProfilePage, name:"profile"},
         {path:'/profile/:username/edit', component: EditProfile, name:"editProfile"},
         {path: '/chats', component: ChatsPage},
-        {path: '/chats/:userId', component: ChatPage, name:"chat"}
+        {path: '/chats/:userId', component: ChatPage, name:"chat"},
+        {path: '/news', component: newsFeed},
+        {path: '/directory', component: directoryPage}
     ]
 });
 

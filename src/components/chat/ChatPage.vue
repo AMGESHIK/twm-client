@@ -1,6 +1,6 @@
 <template>
-  <div class="my-container container mt-xl-2">
-    <section class="chat">
+  <section class="my-container container shadow">
+    <div class="chat">
       <div class="header-chat" @click="goToProfile" style="cursor: pointer;">
         <i class="icon fa fa-user-o" aria-hidden="true"></i>
         <img :src="recipientPhotoUrl" style="height: 45px; width: 45px; object-fit: cover;" alt="" class="rounded-circle">
@@ -33,8 +33,8 @@
           </svg>
         </i>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -170,150 +170,7 @@ body {
   padding: 0;
   background-color: #FFF;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-  height: calc(100vh - 100px);
-}
-
-/* ===== MENU ===== */
-.menu {
-  float: left;
-  height: 700px;;
-  width: 70px;
-  background: #4768b5;
-  background: -webkit-linear-gradient(#4768b5, #35488e);
-  background: -o-linear-gradient(#4768b5, #35488e);
-  background: -moz-linear-gradient(#4768b5, #35488e);
-  background: linear-gradient(#4768b5, #35488e);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19);
-}
-
-.menu .items {
-  list-style: none;
-  margin: auto;
-  padding: 0;
-}
-
-.menu .items .item {
-  height: 70px;
-  border-bottom: 1px solid #6780cc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #9fb5ef;
-  font-size: 17pt;
-}
-
-.menu .items .item-active {
-  background-color: #5172c3;
-  color: #FFF;
-}
-
-.menu .items .item:hover {
-  cursor: pointer;
-  background-color: #4f6ebd;
-  color: #cfe5ff;
-}
-
-/* === CONVERSATIONS === */
-
-.discussions {
-  width: 35%;
-  height: 700px;
-  box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.20);
-  overflow: hidden;
-  background-color: #87a3ec;
-  display: inline-block;
-}
-
-.discussions .discussion {
-  width: 100%;
-  height: 90px;
-  background-color: #FAFAFA;
-  border-bottom: solid 1px #E0E0E0;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.discussions .search {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #E0E0E0;
-}
-
-.discussions .search .searchbar {
-  height: 40px;
-  background-color: #FFF;
-  width: 70%;
-  padding: 0 20px;
-  border-radius: 50px;
-  border: 1px solid #EEEEEE;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.discussions .search .searchbar input {
-  margin-left: 15px;
-  height: 38px;
-  width: 100%;
-  border: none;
-  /*font-family: 'Montserrat', sans-serif;;*/
-}
-
-.discussions .search .searchbar *::-webkit-input-placeholder {
-  color: #E0E0E0;
-}
-
-.discussions .search .searchbar input *:-moz-placeholder {
-  color: #E0E0E0;
-}
-
-.discussions .search .searchbar input *::-moz-placeholder {
-  color: #E0E0E0;
-}
-
-.discussions .search .searchbar input *:-ms-input-placeholder {
-  color: #E0E0E0;
-}
-
-.discussions .message-active {
-  width: 98.5%;
-  height: 90px;
-  background-color: #FFF;
-  border-bottom: solid 1px #E0E0E0;
-}
-
-.discussions .discussion .photo {
-  margin-left: 20px;
-  display: block;
-  width: 45px;
-  height: 45px;
-  background: #E6E7ED;
-  -moz-border-radius: 50px;
-  -webkit-border-radius: 50px;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-.online {
-  position: relative;
-  top: 30px;
-  left: 35px;
-  width: 13px;
-  height: 13px;
-  background-color: #8BC34A;
-  border-radius: 13px;
-  border: 3px solid #FAFAFA;
-}
-
-.desc-contact {
-  height: 43px;
-  width: 50%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  height: calc(100vh - 65px);
 }
 
 .discussions .discussion .name {
@@ -328,17 +185,6 @@ body {
   /*font-family: 'Montserrat', sans-serif;*/
   font-size: 9pt;
   color: #515151;
-}
-
-.timer {
-  margin-left: 15%;
-  /*font-family: 'Open Sans', sans-serif;*/
-  font-size: 11px;
-  padding: 3px 8px;
-  color: #BBB;
-  background-color: #FFF;
-  border: 1px solid #E5E5E5;
-  border-radius: 15px;
 }
 
 .chat {
@@ -408,15 +254,9 @@ body {
   max-width: 500px;
 }
 
-.text-only {
-  margin-left: 45px;
-}
 
 .time {
-  /*  font-size: 10px;*/
-  /*  color: lightgrey;*/
-  /*  margin-bottom: 10px;*/
-  /*  margin-left: 85px;*/
+
   font-size: 10px;
   color: lightgrey;
   display: block;
@@ -424,18 +264,6 @@ body {
   margin: -2px 0 -12px 0;
 }
 
-.timee {
-  font-size: 10px;
-  color: lightgrey;
-  display: block;
-  text-align: right;
-  margin: -5px 0 -12px 0;
-}
-
-.response-time {
-  float: right;
-  margin-right: 40px !important;
-}
 
 .response {
   float: right;

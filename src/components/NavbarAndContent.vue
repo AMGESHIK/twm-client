@@ -1,7 +1,7 @@
 <template>
-  <div class="page-content-wrapper flex-grow-1">
+  <div class="page-content-wrapper flex-grow-1" style="background-color: #eee;">
     <NavigationBar/>
-    <router-view></router-view>
+    <router-view ></router-view>
   </div>
 </template>
 

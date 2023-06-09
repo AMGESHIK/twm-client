@@ -2,14 +2,14 @@
   <div class="container-fluid">
     <h3 class="mt-3">Конструктор программы</h3>
     <Form @submit="sendProgram" class="mb-4 mt-4" style="column-gap: 10%;">
-      <div style="width: 310px;" class="d-grid">
+      <div style="max-width: 410px;" class="d-grid">
         <Field :value="name" :key="name" type="text" class="form-control mb-1" placeholder="Название" name="name"/>
         <Field :value="description" :key="description" as="textarea" class="form-control mb-1" rows="4"
                placeholder="Описание" style="resize: none;"
                name="description"/>
         <FieldArray name="training">
           <div v-for="(training, trainingIndex) in programComposition" :key="trainingIndex"
-               class="d-grid mt-2 pb-2 px-2 rounded-3 bg-gradient" style="background: #e8e8e8;">
+               class="d-grid mt-2 pb-2 px-2 rounded-3 bg-gradient bg-white">
             <Field as="input" :name="`training[${trainingIndex}].number`" :value="trainingIndex+1" disabled
                    class="d-none"></Field>
             <div class="h5 text-center ">
@@ -87,6 +87,7 @@
                     <label>Повторения</label>
                   </div>
                 </div>
+
               </div>
               <div v-show="!training.visible" class="fs-1 text-center rounded-3 lh-1 opacity-75"
                    style="letter-spacing: 20px; margin-top: -10px;">···

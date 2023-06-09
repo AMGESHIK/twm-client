@@ -2,8 +2,8 @@
   <div class="text-center vsc-initialized">
     <main class="form-signin">
       <Form @submit="handleRegister" :validation-schema="schema">
-        <a href="/">
-          <img class="mb-4" src="../../public/img/logo.png" th:src="@{/img/Train with me 2.png}" alt=""
+        <a href="/public">
+          <img class="mb-4" src="../../../public/img/logo.png" th:src="@{/img/Train with me 2.png}" alt=""
                width="200">
         </a>
         <h1 class="h3 mb-3 fw-normal">Регистрация</h1>

@@ -19,7 +19,7 @@
     </div>
     <div class="fs-5 mb-2">{{ description }}</div>
     <div>
-      <div v-for="composition in programComposition" :key="composition" class="mt-3 p-2 shadow-sm rounded"
+      <div v-for="composition in programComposition" :key="composition" class="mt-3 p-2 shadow-sm rounded bg-white"
            style="background: #e8e8e8;">
         <div class="h5 text-center">Тренировка №{{ composition.number }}</div>
         <div v-for="(training, idx) in composition.training" :key="idx" class="d-flex">
